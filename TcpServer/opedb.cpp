@@ -19,7 +19,7 @@ OpeDB &OpeDB::getInstance()
 void OpeDB::init()
 {
     m_db.setHostName("localhost");
-    m_db.setDatabaseName("E:\\code_file\\C_file_QT\\TcpServer\\cloud.db");
+    m_db.setDatabaseName("E:\\code_file\\C_file_QT\\My_version\\TcpServer\\cloud.db");
     if(m_db.open()){
         QSqlQuery query;
         query.exec("select * from usrInfo");
@@ -46,7 +46,6 @@ bool OpeDB::handleRegist(const char *name, const char *pwd)
 //    query.prepare("insert into usrInfo(name,pwd) values(\'name\', \'pwd\')");
 //    query.bindValue(":name", name);
 //    query.bindValue(":pwd", pwd);
-//
     return query.exec(data);
 }
 
@@ -225,6 +224,47 @@ QStringList OpeDB::handleFulshFriend(const char *name)
 
      return strFriendList;
 }
+
+bool OpeDB::handleDelFriend(const char *name, const char *friendName)
+{
+    if(name == NULL or friendName ==NULL){
+        return false;
+    }
+    qDebug()<<"删除好友";
+    QString data = QString("delete from friend where id=(select id from usrInfo where name = \'%1\') and friendId = (select id from usrInfo where name = \'%2\')").arg(name).arg(friendName);
+    qDebug()<<data;
+    QSqlQuery query;
+    query.exec(data);
+
+    data = QString("delete from friend where id=(select id from usrInfo where name = \'%1\') and friendId = (select id from usrInfo where name = \'%2\')").arg(friendName).arg(name);
+    qDebug()<<data;
+
+    query.exec(data);
+
+    return true;
+}
+
+QStringList OpeDB::handleGroupChat()
+{
+    QStringList strFriendList;
+    strFriendList.clear();
+
+
+    qDebug()<<"handleFulshFriend::";
+    QString data = QString("select name from usrInfo where online = 1") ;
+
+    qDebug()<<data;
+    QSqlQuery query;
+    query.exec(data);
+
+    while(query.next()){
+         strFriendList.append(query.value(0).toString());
+         qDebug()<<query.value(0).toString();
+    }
+    return strFriendList;
+}
+
+
 
 
 OpeDB::~OpeDB()

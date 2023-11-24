@@ -1,10 +1,6 @@
 #include "protocol.h"
 
 
-
-
-
-
 PDU *mkPDU(uint uiMsgLen)
 {
     uint uiPDULen = sizeof(PDU)+ uiMsgLen;

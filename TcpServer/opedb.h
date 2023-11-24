@@ -25,6 +25,10 @@ public:
 
     QStringList handleFulshFriend(const char* name);
 
+    bool handleDelFriend(const char* name,const char* friendName);
+
+    QStringList handleGroupChat();
+
     ~OpeDB();
 signals:
 private:
