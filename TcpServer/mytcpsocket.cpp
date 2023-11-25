@@ -27,8 +27,8 @@ void MyTcpSocket::recvMsg()
     PDU*pdu = mkPDU(uiMsgLen);
     this->read((char*)pdu+sizeof(uint),uiPDULen);
 
-//  qDebug()<<pdu->uiMsgType<<(char*)(pdu->caMsg);
 
+//  qDebug()<<pdu->uiMsgType<<(char*)(pdu->caMsg);
     //根据PDU的消息类型进行不同的操作
     switch (pdu->uiMsgType)
     {
